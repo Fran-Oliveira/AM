@@ -24,7 +24,7 @@ public class AulaBean {
 	private AulaDAO dao;
 	private String nomeBusca;
 	private List<Aula> lista;
-	private long codigo; 
+	private long codigo; //Remoção
 
 	@PostConstruct
 	public void init() {
@@ -60,24 +60,19 @@ public class AulaBean {
 		} catch (Exception e) {
 			e.printStackTrace();
 			msg = new FacesMessage("Erro ao excluir!");
-			lista = dao.list();
 		}
 		FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 	
-	public String buscar(){
+	public void buscar(){
 		FacesMessage msg;
 		if(nomeBusca==""){
 			msg=new FacesMessage("Informe o nome da aula para a busca");
 		}else{
-			if (lista==null) {
-				msg= new FacesMessage("Nenhuma aula encontrada para a busca " + nomeBusca);
-			}
-			lista = dao.buscarNomes(nomeBusca);
-			msg= new FacesMessage("Busca por: " + nomeBusca);
+			msg= new FacesMessage("Busca pela aula: " + nomeBusca);
+			lista = dao.buscarPorNome(nomeBusca);
 		}
 		FacesContext.getCurrentInstance().addMessage(null, msg);
-		return "cadastroAula";
 	}
 	
 	public void atualizar() throws SOAPException{

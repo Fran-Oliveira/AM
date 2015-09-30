@@ -3,7 +3,6 @@ package br.com.joule.daoimpl;
 import java.util.List;
 
 import javax.persistence.EntityManager;
-import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
 
 import br.com.joule.dao.CursoDAO;
@@ -24,31 +23,11 @@ public class CursoDAOImpl extends DAOImpl<Curso, Long> implements CursoDAO {
 	}
 
 	@Override
-	public Curso buscarPorNome(String nome) {
-		TypedQuery<Curso> query =
-				em.createQuery("from Curso a where "
-				+ "a.nome = :nome",
-				Curso.class);
-			query.setParameter("nome", nome);
-			try {
-				return query.getSingleResult();
-			} catch (NoResultException nre) {
-				return null;
-			}
+	public List<Curso> buscarPorNome(String nome) {
+		return em.createQuery("from Curso c where "
+				+ "upper(c.nome) like upper(:n)",Curso.class)
+				.setParameter("n","%"+nome+"%").getResultList();
 	}
-	
-	@Override
-	public List<Curso> buscarNomes(String nome) {
-		TypedQuery<Curso> query =
-				em.createQuery("from Curso a where "
-				+ "a.nome like :nome",
-				Curso.class);
-			query.setParameter("nome", "%"+nome+"%");
-			try {
-			return query.getResultList();
-			} catch (NoResultException nre) {
-				return null;
-			}
-	}
+
 
 }

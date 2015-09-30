@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.TypedQuery;
+
 import br.com.joule.dao.AulaDAO;
 import br.com.joule.entity.Aula;
 
@@ -23,7 +24,7 @@ public class AulaDAOImpl extends DAOImpl<Aula, Long> implements AulaDAO{
 	}
 
 	@Override
-	public List<Aula> buscarNomes(String nome) {
+	public List<Aula> buscarPorNome(String nome) {
 		TypedQuery<Aula> query =
 				em.createQuery("from Aula a where "
 				+ "a.nome like :nome",
@@ -31,20 +32,6 @@ public class AulaDAOImpl extends DAOImpl<Aula, Long> implements AulaDAO{
 			query.setParameter("nome", "%"+nome+"%");
 			try {
 			return query.getResultList();
-			} catch (NoResultException nre) {
-				return null;
-			}
-	}
-	
-	@Override
-	public Aula buscarPorNome(String nome) {
-		TypedQuery<Aula> query =
-				em.createQuery("from Aula a where "
-				+ "a.nome = :nome",
-				Aula.class);
-			query.setParameter("nome", nome);
-			try {
-				return query.getSingleResult();
 			} catch (NoResultException nre) {
 				return null;
 			}

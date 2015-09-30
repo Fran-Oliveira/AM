@@ -8,7 +8,6 @@ public interface CursoDAO extends DAO<Curso, Long> {
 
 	List<Curso> list();
 	
-	Curso buscarPorNome(String nome);
-	
-	List<Curso> buscarNomes(String nome);
+	List<Curso> buscarPorNome(String nome);
+
 }
